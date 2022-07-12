@@ -1,0 +1,47 @@
+put:
+  tags: 
+    - users
+  summary: Update current user
+  description: This can only be done by the logged in user
+  operationId: updateUser
+  parameters:
+    - name: firstName
+      in: path
+      description: need to be updated
+      required: true
+      type: string
+    - name: lastName
+      in: path
+      description: need to be updated
+      required: true
+      type: string
+    - name: email
+      in: path
+      description: need to be updated
+      required: true
+      type: string
+    - in: body
+      name: body
+      description: Updated user object
+      required: true
+      schema:
+        type: object
+        properties:
+          id:
+            type: number
+            format: int64
+            example: 1
+          firstName:
+            type: string
+            example: John
+          lastName:
+            type: string
+            example: Brown
+          email: 
+            type: string
+            example: example@email.com
+  responses:
+    "201":
+      description: Created
+    "204":
+      description: No content
