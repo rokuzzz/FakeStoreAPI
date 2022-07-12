@@ -1,4 +1,4 @@
-# DO NOT TOUCH THIS YAML FILE. CREATE ANOTHER BRANCH 
+# DO NOT TOUCH THIS YAML FILE. CREATE ANOTHER BRANCH
 #AND WORK IN YOUR OWN FILES IN COMPONENTS (SCHEMAS OR  USERS)
 
 openapi: 3.0.1
@@ -20,29 +20,40 @@ tags:
   - name: admin
     description: Secured Admin-only calls
   - name: products
-    description: Operations available to regular users
+    description: Products operation available to regular users
   - name: users
     description: Operations about user
   - name: categories
+    description: Operations related to categories
+  - name: cart
+    description: Operations related to cart
 paths:
   /products:
-    $ref: './components/paths/products.yaml'
+    $ref: "./components/paths/products.yaml"
   /products/{id}:
-    $ref: './components/paths/product.yaml'
+    $ref: "./components/paths/product.yaml"
   /users:
-    $ref: './components/paths/users.yaml'
+    $ref: "./components/paths/users.yaml"
   /users/{id}:
-    $ref: './components/paths/user.yaml'
+    $ref: "./components/paths/user.yaml"
   /categories:
-    $ref: './components/paths/categories.yaml'
+    $ref: "./components/paths/categories.yaml"
   /categories{id}:
-    $ref: './components/paths/category.yaml'
+    $ref: "./components/paths/category.yaml"
+  /carts:
+    $ref: "./components/paths/carts.yaml"
+  /carts/{id}:
+    $ref: "./components/paths/cart.yaml"
 components:
   schemas:
     Product:
       $ref: "./components/schemas/Product.yaml"
-    User: 
+    User:
       $ref: "./components/schemas/User.yaml"
+    Category:
+      $ref: "./components/schemas/Category.yaml"
+    CartItem:
+      $ref: "./components/schemas/CartItem.yaml"
   securitySchemes:
     BasicAuth:
       type: http

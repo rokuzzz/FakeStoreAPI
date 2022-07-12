@@ -17,10 +17,13 @@ tags:
   - name: admin
     description: Secured Admin-only calls
   - name: products
-    description: Operations available to regular users
+    description: Products operation available to regular users
   - name: users
     description: Operations about user
   - name: categories
+    description: Operations related to categories
+  - name: cart
+    description: Operations related to cart
 paths:
   /products:
     get:
@@ -124,11 +127,30 @@ paths:
             type: integer
             format: int64
       responses:
+        '200':
+          description: Product deleted successfully
         '400':
           description: Invalid ID supplied
         '404':
           description: Product not found
   /users:
+    get:
+      tags:
+        - admin
+      summary: Get all users
+      description: Admin can get all users
+      operationId: getAllUsers
+      security:
+        BearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
     post:
       tags:
         - users
@@ -227,18 +249,67 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    format: int64
-                    example: 1
-                  name:
-                    type: string
-                    example: Clothes
-                  image:
-                    type: string
-                    example: 'https://placeimg.com/640/480/any'
+                $ref: '#/components/schemas/Category'
+  /carts:
+    get:
+      tags:
+        - cart
+      summary: get cart
+      description: get individual shopping cart
+      security:
+        BearerAuth: []
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CartItem'
+        '404':
+          description: content not found
+    post:
+      tags:
+        - cart
+      summary: add to cart
+      description: add a new item to cart
+      security:
+        BearerAuth: []
+      responses:
+        '201':
+          description: item added
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItem'
+            description: Item to add
+  '/carts/{id}':
+    delete:
+      tags:
+        - cart
+      summary: Deletes an item
+      description: Delete an item from cart based on quantity
+      security:
+        BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of item
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Item deleted successfully
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product not found
 components:
   schemas:
     Product:
@@ -286,6 +357,52 @@ components:
         email:
           type: string
           example: john@email.com
+    Category:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Clothes
+        image:
+          type: string
+          example: 'https://placeimg.com/640/480/any'
+    CartItem:
+      CartItem: null
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - category
+        - variant
+        - size
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: iPhone 14
+        description:
+          type: string
+          example: Smartphone by Apple
+        category:
+          type: string
+          example: Electronics
+        variant:
+          type: string
+          example: red
+        size:
+          type: string
+          example: small
+        quantity:
+          type: integer
+          format: int64
+          example: 1
   securitySchemes:
     BasicAuth:
       type: http

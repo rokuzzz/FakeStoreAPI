@@ -1,22 +1,40 @@
+get:
+  tags:
+    - admin
+  summary: Get all users
+  description: Admin can get all users
+  operationId: getAllUsers
+  security:
+    BearerAuth: []
+  responses:
+    "200":
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/User.yaml"
+
 post:
   tags:
     - users
   summary: Create a new user
   description: Create a new user when sign up
   operationId: createUser
-  parameters: 
+  parameters:
     - in: body
       name: body
       description: New user object
       required: true
-      schema: 
-        $ref: '../schemas/User.yaml'
+      schema:
+        $ref: "../schemas/User.yaml"
   responses:
     "201":
       description: User successfully created
       content:
         application/json:
           schema:
-            $ref: '../schemas/User.yaml'
+            $ref: "../schemas/User.yaml"
     "405":
       description: Invalid input

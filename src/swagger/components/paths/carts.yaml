@@ -1,0 +1,36 @@
+get:
+  tags:
+    - cart
+  summary: get cart
+  description: get individual shopping cart
+  security:
+    BearerAuth: []
+  responses:
+    "200":
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/CartItem.yaml"
+    "404":
+      description: content not found
+post:
+  tags:
+    - cart
+  summary: add to cart
+  description: add a new item to cart
+  security:
+    BearerAuth: []
+  responses:
+    "201":
+      description: item added
+    "400":
+      description: invalid input, object invalid
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/CartItem.yaml"
+        description: Item to add

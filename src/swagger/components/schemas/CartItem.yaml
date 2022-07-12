@@ -1,0 +1,32 @@
+CartItem:
+type: object
+required:
+  - id
+  - name
+  - description
+  - category
+  - variant
+  - size
+properties:
+  id:
+    type: integer
+    format: int64
+  name:
+    type: string
+    example: iPhone 14
+  description:
+    type: string
+    example: Smartphone by Apple
+  category:
+    type: string
+    example: Electronics
+  variant:
+    type: string
+    example: red
+  size:
+    type: string
+    example: small
+  quantity:
+    type: integer
+    format: int64
+    example: 1
