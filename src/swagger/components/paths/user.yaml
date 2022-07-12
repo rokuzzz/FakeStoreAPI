@@ -7,17 +7,14 @@ put:
   parameters:
     - name: firstName
       in: path
-      description: need to be updated
-      required: true
+      required: false
       type: string
     - name: lastName
       in: path
-      description: need to be updated
-      required: true
+      required: false
       type: string
     - name: email
       in: path
-      description: need to be updated
       required: true
       type: string
     - in: body
@@ -36,12 +33,28 @@ put:
             example: John
           lastName:
             type: string
-            example: Brown
+            example: Doe
           email: 
             type: string
-            example: example@email.com
+            example: john@email.com
   responses:
-    "201":
-      description: Created
-    "204":
-      description: No content
+    "200":
+      description: User information updated successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                format: int64
+                example: 1
+              firstName:
+                type: string
+                example: Alex
+              lastName:
+                type: string
+                example: Brown
+              email: 
+                type: string
+                example: alex@email.com
