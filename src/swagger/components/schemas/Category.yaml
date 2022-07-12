@@ -1,0 +1,12 @@
+type: object
+properties:
+  id:
+    type: number
+    format: int64
+    example: 1
+  name:
+    type: string
+    example: Clothes
+  image:
+    type: string
+    example: https://placeimg.com/640/480/any

@@ -22,21 +22,7 @@ put:
       description: Updated user object
       required: true
       schema:
-        type: object
-        properties:
-          id:
-            type: number
-            format: int64
-            example: 1
-          firstName:
-            type: string
-            example: John
-          lastName:
-            type: string
-            example: Doe
-          email: 
-            type: string
-            example: john@email.com
+        $ref: '../schemas/User.yaml'
   responses:
     "200":
       description: User information updated successfully

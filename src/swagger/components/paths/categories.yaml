@@ -1,0 +1,12 @@
+get:
+  tags:
+    - categories
+  summary: Get all categories
+  parameters:
+  - name: limit
+    in: query
+    required: true
+    type: integer
+  responses:
+    "200":
+      description: successful operation

@@ -10,41 +10,13 @@ post:
       description: New user object
       required: true
       schema: 
-        type: object
-        properties:
-          id:
-            type: number
-            format: int64
-            example: 1
-          firstName:
-            type: string
-            example: John
-          lastName:
-            type: string
-            example: Brown
-          email: 
-            type: string
-            example: example@email.com
+        $ref: '../schemas/User.yaml'
   responses:
     "201":
       description: User successfully created
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              id:
-                type: number
-                format: int64
-                example: 1
-              firstName:
-                type: string
-                example: John
-              lastName:
-                type: string
-                example: Doe
-              email: 
-                type: string
-                example: john@email.com
+            $ref: '../schemas/User.yaml'
     "405":
       description: Invalid input

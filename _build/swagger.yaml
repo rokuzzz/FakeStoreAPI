@@ -141,45 +141,17 @@ paths:
           description: New user object
           required: true
           schema:
-            type: object
-            properties:
-              id:
-                type: number
-                format: int64
-                example: 1
-              firstName:
-                type: string
-                example: John
-              lastName:
-                type: string
-                example: Brown
-              email:
-                type: string
-                example: example@email.com
+            $ref: '#/components/schemas/User'
       responses:
         '201':
           description: User successfully created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: number
-                    format: int64
-                    example: 1
-                  firstName:
-                    type: string
-                    example: John
-                  lastName:
-                    type: string
-                    example: Doe
-                  email:
-                    type: string
-                    example: john@email.com
+                $ref: '#/components/schemas/User'
         '405':
           description: Invalid input
-  '/users/{username}':
+  '/users/{id}':
     put:
       tags:
         - users
@@ -204,21 +176,7 @@ paths:
           description: Updated user object
           required: true
           schema:
-            type: object
-            properties:
-              id:
-                type: number
-                format: int64
-                example: 1
-              firstName:
-                type: string
-                example: John
-              lastName:
-                type: string
-                example: Doe
-              email:
-                type: string
-                example: john@email.com
+            $ref: '#/components/schemas/User'
       responses:
         '200':
           description: User information updated successfully
@@ -240,7 +198,47 @@ paths:
                   email:
                     type: string
                     example: alex@email.com
-  /categories: !<tag:yaml.org,2002:js/undefined> ''
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: Get all categories
+      parameters:
+        - name: limit
+          in: query
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+  '/categories{id}':
+    get:
+      tags:
+        - categories
+      summary: Get single category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    format: int64
+                    example: 1
+                  name:
+                    type: string
+                    example: Clothes
+                  image:
+                    type: string
+                    example: 'https://placeimg.com/640/480/any'
 components:
   schemas:
     Product:
@@ -284,10 +282,10 @@ components:
           example: John
         lastName:
           type: string
-          example: Brown
+          example: Doe
         email:
           type: string
-          example: example@email.com
+          example: john@email.com
   securitySchemes:
     BasicAuth:
       type: http

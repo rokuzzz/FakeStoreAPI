@@ -31,16 +31,18 @@ paths:
     $ref: './components/paths/product.yaml'
   /users:
     $ref: './components/paths/users.yaml'
-  /users/{username}:
+  /users/{id}:
     $ref: './components/paths/user.yaml'
   /categories:
     $ref: './components/paths/categories.yaml'
+  /categories{id}:
+    $ref: './components/paths/category.yaml'
 components:
   schemas:
     Product:
       $ref: "./components/schemas/Product.yaml"
     User: 
-      $ref: "./components/schemas/Users.yaml"
+      $ref: "./components/schemas/User.yaml"
   securitySchemes:
     BasicAuth:
       type: http

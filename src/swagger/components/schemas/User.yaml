@@ -9,7 +9,7 @@ properties:
     example: John
   lastName:
     type: string
-    example: Brown
+    example: Doe
   email: 
     type: string
-    example: example@email.com
+    example: john@email.com
