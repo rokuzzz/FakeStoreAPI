@@ -1,0 +1,248 @@
+openapi: 3.0.1
+servers:
+  - description: SwaggerHub API
+    url: HTTP
+  - description: SwaggerHub API
+    url: HTTPS
+info:
+  description: This is a fake Ecommerce API
+  version: 1.0.0
+  title: Fake Ecommerce API
+  contact:
+    email: hoan.ho@integrify.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admin
+    description: Secured Admin-only calls
+  - name: products
+    description: Operations available to regular users
+  - name: users
+    description: Operations about user
+paths:
+  /products:
+    get:
+      tags:
+        - products
+      summary: get all products
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      tags:
+        - admin
+      summary: create a new product
+      security:
+        BearerAuth: []
+      responses:
+        '201':
+          description: product created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: product already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            description: Product to create
+  '/products/{id}':
+    get:
+      tags:
+        - products
+      summary: get single product
+      parameters:
+        - name: id
+          in: path
+          description: ID of product
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    put:
+      tags:
+        - admin
+      summary: update value of a product
+      security:
+        BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of product
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '201':
+          description: product updated
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Updated name of product
+                  type: string
+                description:
+                  description: Updated description of the product
+                variant:
+                  description: Updated variant of the product
+                size:
+                  description: Updated size of the product
+    delete:
+      tags:
+        - admin
+      summary: Deletes a product
+      security:
+        BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: ID of product
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Product not found
+  /users:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      description: Create a new user when sign up
+      operationId: createUser
+      parameters:
+        - in: body
+          name: body
+          description: New user object
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                format: int64
+                example: 1
+              firstName:
+                type: string
+                example: John
+              lastName:
+                type: string
+                example: Brown
+              email:
+                type: string
+                example: example@email.com
+      responses:
+        '201':
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    format: int64
+                    example: 1
+                  firstName:
+                    type: string
+                    example: John
+                  lastName:
+                    type: string
+                    example: Brown
+                  email:
+                    type: string
+                    example: example@email.com
+        '405':
+          description: Invalid input
+components:
+  schemas:
+    Product:
+      Product: null
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - category
+        - variant
+        - size
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: iPhone 14
+        description:
+          type: string
+          example: Smartphone by Apple
+        category:
+          type: string
+          example: Electronics
+        variant:
+          type: string
+          example: red
+        size:
+          type: string
+          example: small
+    User:
+      type: object
+      properties:
+        id:
+          type: number
+          format: int64
+          example: 1
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Brown
+        email:
+          type: string
+          example: example@email.com
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://example.com/oauth/authorize'
+          tokenUrl: 'https://example.com/oauth/token'
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations

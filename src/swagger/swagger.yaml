@@ -1,0 +1,59 @@
+# DO NOT TOUCH THIS YAML FILE. CREATE ANOTHER BRANCH 
+#AND WORK IN YOUR OWN FILES IN COMPONENTS (SCHEMAS OR  USERS)
+
+openapi: 3.0.1
+servers:
+  - description: SwaggerHub API
+    url: HTTP
+  - description: SwaggerHub API
+    url: HTTPS
+info:
+  description: This is a fake Ecommerce API
+  version: "1.0.0"
+  title: Fake Ecommerce API
+  contact:
+    email: hoan.ho@integrify.io
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: admin
+    description: Secured Admin-only calls
+  - name: products
+    description: Operations available to regular users
+  - name: users
+    description: Operations about user
+paths:
+  /products:
+    $ref: './components/paths/products.yaml'
+  /products/{id}:
+    $ref: './components/paths/product.yaml'
+  /users:
+    $ref: './components/paths/users.yaml' 
+components:
+  schemas:
+    Product:
+      $ref: "./components/schemas/Product.yaml"
+    User: 
+      $ref: "./components/schemas/Users.yaml"
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            read: Grants read access
+            write: Grants write access
+            admin: Grants access to admin operations

@@ -1,0 +1,32 @@
+get:
+  tags:
+    - products
+  summary: get all products
+  responses:
+    "200":
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "../schemas/Product.yaml"
+post:
+  tags:
+    - admin
+  summary: create a new product
+  security:
+    BearerAuth: []
+  responses:
+    "201":
+      description: product created
+    "400":
+      description: invalid input, object invalid
+    "409":
+      description: product already exists
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../schemas/Product.yaml"
+        description: Product to create

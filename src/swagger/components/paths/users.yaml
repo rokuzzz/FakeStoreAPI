@@ -1,0 +1,50 @@
+post:
+  tags:
+    - users
+  summary: Create a new user
+  description: Create a new user when sign up
+  operationId: createUser
+  parameters: 
+    - in: body
+      name: body
+      description: New user object
+      required: true
+      schema: 
+        type: object
+        properties:
+          id:
+            type: number
+            format: int64
+            example: 1
+          firstName:
+            type: string
+            example: John
+          lastName:
+            type: string
+            example: Brown
+          email: 
+            type: string
+            example: example@email.com
+  responses:
+    "201":
+      description: User successfully created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                format: int64
+                example: 1
+              firstName:
+                type: string
+                example: John
+              lastName:
+                type: string
+                example: Brown
+              email: 
+                type: string
+                example: example@email.com
+    "405":
+      description: Invalid input

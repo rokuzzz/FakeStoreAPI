@@ -1,0 +1,15 @@
+type: object
+properties:
+  id:
+    type: number
+    format: int64
+    example: 1
+  firstName:
+    type: string
+    example: John
+  lastName:
+    type: string
+    example: Brown
+  email: 
+    type: string
+    example: example@email.com
