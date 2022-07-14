@@ -233,6 +233,25 @@ paths:
       responses:
         '200':
           description: successful operation
+    post:
+      tags:
+        - admin
+      summary: create a new category
+      security:
+        BearerAuth: []
+      responses:
+        '201':
+          description: category created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: category already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+            description: Category to create
   '/categories{id}':
     get:
       tags:
@@ -357,6 +376,11 @@ components:
         email:
           type: string
           example: john@email.com
+        role:
+          type: string
+          enum:
+            - admin
+            - user
     Category:
       type: object
       properties:

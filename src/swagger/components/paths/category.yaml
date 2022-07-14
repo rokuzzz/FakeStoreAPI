@@ -3,14 +3,15 @@ get:
     - categories
   summary: Get single category
   parameters:
-  - name: id
-    in: path
-    required: true
-    type: integer
+    - name: id
+      in: path
+      required: true
+      type: integer
   responses:
     "200":
       description: successful operation
       content:
         application/json:
           schema:
-            $ref: '../schemas/Category.yaml'
+            $ref: "../schemas/Category.yaml"
+

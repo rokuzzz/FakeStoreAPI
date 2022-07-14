@@ -10,6 +10,9 @@ properties:
   lastName:
     type: string
     example: Doe
-  email: 
+  email:
     type: string
     example: john@email.com
+  role:
+    type: string
+    enum: [admin, user]
