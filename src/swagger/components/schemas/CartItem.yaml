@@ -7,6 +7,8 @@ required:
   - category
   - variant
   - size
+  - image
+  - quantity
 properties:
   id:
     type: integer
@@ -26,6 +28,9 @@ properties:
   size:
     type: string
     example: small
+  image: 
+    type: string
+    example: https://placeimg.com/640/480/any
   quantity:
     type: integer
     format: int64
