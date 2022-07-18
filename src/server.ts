@@ -8,6 +8,7 @@ import YAML from "yamljs";
 import path from "path";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import users from './routes/users'
 
 dotenv.config();
 const port: string = process.env.PORT as string;
@@ -23,6 +24,7 @@ app.set("port", port);
 // Common middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
 app.use(cookieParser());
 
 // Show routes called in console during development
@@ -36,15 +38,16 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Add swagger router
-app.use(
-  "/",
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument, {
-    explorer: true,
-  })
-);
+// app.use(
+//   "/",
+//   swaggerUi.serve,
+//   swaggerUi.setup(swaggerDocument, {
+//     explorer: true,
+//   })
+// );
 
 // Add routes
+app.use('/users', users)
 
 // Set dynamic view from views dir
 const viewsDir = path.join(__dirname, "views");
