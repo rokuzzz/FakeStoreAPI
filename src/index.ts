@@ -1,13 +1,10 @@
-import logger from "jet-logger";
 import server from "./server";
-import mongodb from "mongodb";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import app from "./server";
+
 
 dotenv.config();
 const URI: string = process.env.SHOP_DB_URI as string;
-const port: string = process.env.PORT as string;
 
 mongoose
   .connect(`${URI}`)

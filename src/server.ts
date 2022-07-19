@@ -1,13 +1,15 @@
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-import express, { Request, Response } from "express";
+import express from "express";
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import products from "./routes/products";
+import categories from "./routes/categories";
 
 dotenv.config();
 const port: string = process.env.PORT as string;
@@ -37,7 +39,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Add swagger router
 app.use(
-  "/",
+  "/api-docs",
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocument, {
     explorer: true,
@@ -45,10 +47,8 @@ app.use(
 );
 
 // Add routes
-
-// Set dynamic view from views dir
-const viewsDir = path.join(__dirname, "views");
-app.set("views", viewsDir);
+app.use("/products", products);
+app.use("/categories", categories);
 
 // Export here and start in a diff file (for testing).
 export default app;
