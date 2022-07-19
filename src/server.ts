@@ -1,7 +1,8 @@
+import { handleError } from './middlewares/handleError';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -48,6 +49,9 @@ if (process.env.NODE_ENV === "production") {
 
 // Add routes
 app.use('/users', users)
+
+// Error middleware
+app.use(handleError)
 
 // Set dynamic view from views dir
 const viewsDir = path.join(__dirname, "views");
