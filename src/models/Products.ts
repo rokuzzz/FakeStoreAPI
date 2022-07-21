@@ -1,10 +1,10 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
-
 export interface ProductDocument extends Document {
   name: string;
   description: string;
   categoryId: ObjectId;
+  category: string;
   variant: string;
   size: string;
   image: string;
@@ -19,10 +19,13 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    required: true,
+  },
   categoryId: {
     type: Schema.Types.ObjectId,
     ref: "Category",
-    required: true,
   },
   variant: {
     type: String,

@@ -15,9 +15,16 @@ const getProductById = async (productId: string) => {
 };
 
 const createProduct = async (product: ProductDocument) => {
-  const productCategory = await Category.findById(product.categoryId);
-  if (productCategory) {
-    return await product.save();
+  const categoryId = await Category.findOne({ name: product.category });
+  if (categoryId) {
+    await product.save();
+    return await Product.findByIdAndUpdate(
+      product._id,
+      {
+        categoryId: categoryId,
+      },
+      { new: true }
+    );
   } else {
     throw new CustomError(404, "Category does not exist");
   }

@@ -2,6 +2,7 @@ import productService from "../services/productService";
 import { NextFunction, Request, Response } from "express";
 import Product, { ProductDocument } from "../models/Products";
 
+
 // Product controller
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -32,12 +33,11 @@ const createProduct = async (
   next: NextFunction
 ) => {
   try {
-    let { name, description, categoryId, variant, size, image } = req.body;
-
+    let { name, description, category, variant, size, image } = req.body;
     const newProduct = new Product({
       name,
       description,
-      categoryId,
+      category,
       variant,
       size,
       image,
