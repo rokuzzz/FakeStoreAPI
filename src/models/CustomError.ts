@@ -1,11 +1,10 @@
-export class CustomError {
-  message!: string;
-  status!: number;
-  additionalInfo!: any;
+export class CustomError extends Error {
+  public readonly status: number;
+  public readonly message: string;
 
-  constructor(message: string, status: number = 500, additionalInfo: any = {}) {
-    this.message = message;
-    this.status = status;
-    this.additionalInfo = additionalInfo
+  constructor(status: number, message: string) {
+    super(message)
+    this.status = status
+    this.message = message
   }
 }
