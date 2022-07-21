@@ -1,5 +1,8 @@
-import { CustomError } from '../models/CustomError';
 import { Request, Response } from "express"
+import jwt from 'jsonwebtoken'
+
+import { CustomError } from '../models/CustomError';
+
 
 const getAllUsers = ( req: Request, res: Response) => {
   return res.send('GET response from /users endpoint')
@@ -14,8 +17,10 @@ const getSingleUser =  (req: Request, res: Response) => {
 }
 
 const successLogin = (req: Request, res: Response) => {
-  console.log(req.body)
-  return res.send(`login as ${req.body.username}`)
+  const token = jwt.sign(req.body, 'mysecretkey', { algorithm: 'RS256'});
+  return res.send(token)
+
+  // return res.send(`login as ${req.body.username}`)
 }
 
 const createUser = (req: Request, res: Response) => {
