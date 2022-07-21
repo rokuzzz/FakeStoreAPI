@@ -1,29 +1,61 @@
+import { CustomError } from "errorType";
+import Category, { CategoryDocument } from "../models/Categories";
 import Product, { ProductDocument } from "../models/Products";
 
 const getProducts = async () => {
   return await Product.find();
 };
 
-const getProductById = async (productId: number) => {
-  return await Product.findOne({ id: productId });
+const getProductById = async (productId: string) => {
+  const foundProduct = await Product.findById(productId);
+  if (!foundProduct) {
+    throw new CustomError(404, "Product does not exist");
+  }
+  return foundProduct;
 };
 
-const updateProduct = async (productId: number, updateProduct: any) => {
+const createProduct = async (product: ProductDocument) => {
+  const productCategory = await Category.findById(product.categoryId);
+  if (productCategory) {
+    return await product.save();
+  } else {
+    throw new CustomError(404, "Category does not exist");
+  }
+};
+
+const updateProduct = async (productId: string, updateProduct: any) => {
   const { name, description, variant, size, image } = updateProduct;
-  return await Product.findOneAndUpdate(
-    { id: productId },
-    {
-      name: name,
-      description: description,
-      variant: variant,
-      size: size,
-      image: image,
-    }
-  );
+  const foundProduct = await Product.findById(productId);
+  if (foundProduct) {
+    return await Product.findByIdAndUpdate(
+      productId,
+      {
+        name: name,
+        description: description,
+        variant: variant,
+        size: size,
+        image: image,
+      },
+      { new: true }
+    );
+  } else {
+    throw new CustomError(404, "Product not found");
+  }
 };
 
-const deleteProduct = async (productId: number) => {
-  return await Product.findOneAndDelete({ id: productId });
+const deleteProduct = async (productId: string) => {
+  const foundProduct = await Product.findById(productId);
+  if (foundProduct) {
+    return await Product.findByIdAndDelete(productId);
+  } else {
+    throw new CustomError(404, "Product not found");
+  }
 };
 
-export default { getProducts, getProductById, updateProduct, deleteProduct };
+export default {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};

@@ -1,22 +1,16 @@
 import mongoose, { Document, ObjectId, Schema } from "mongoose";
-import Category from "./Categories";
+
 
 export interface ProductDocument extends Document {
-  id: number;
   name: string;
   description: string;
-  category: ObjectId;
+  categoryId: ObjectId;
   variant: string;
   size: string;
   image: string;
 }
 
 const productSchema = new Schema({
-  id: {
-    type: Number,
-    required: true,
-    unique: true
-  },
   name: {
     type: String,
     required: true,
@@ -25,17 +19,16 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
-  category: {
+  categoryId: {
     type: Schema.Types.ObjectId,
     ref: "Category",
+    required: true,
   },
   variant: {
     type: String,
-    required: true,
   },
   size: {
     type: String,
-    required: true,
   },
   image: {
     type: String,
@@ -44,6 +37,5 @@ const productSchema = new Schema({
 });
 
 const Product = mongoose.model<ProductDocument>("Product", productSchema);
-
 
 export default Product;

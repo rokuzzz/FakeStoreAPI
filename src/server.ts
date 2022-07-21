@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import products from "./routes/products";
 import categories from "./routes/categories";
+import { errorHandler } from "./errorHandler/error";
 
 dotenv.config();
 const port: string = process.env.PORT as string;
@@ -49,6 +50,10 @@ app.use(
 // Add routes
 app.use("/products", products);
 app.use("/categories", categories);
+
+// Add error handler
+
+app.use(errorHandler)
 
 // Export here and start in a diff file (for testing).
 export default app;
