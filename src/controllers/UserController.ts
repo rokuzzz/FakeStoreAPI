@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
 import jwt from 'jsonwebtoken'
+import { v4 as uuidv4, v4 } from 'uuid';
 
+import { User } from '../types/UserType';
 import { CustomError } from '../models/CustomError';
 
 
@@ -24,7 +26,26 @@ const successLogin = (req: Request, res: Response) => {
 }
 
 const createUser = (req: Request, res: Response) => {
-  return res.send(req.body)
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    avatar
+  } = req.body
+
+  const user: User = {
+    id: v4(),
+    firstName,
+    lastName,
+    email,
+    password,
+    avatar
+  }
+
+  //save this user into db
+  
+  return res.status(201).json(user)
 }
 
 export default {
