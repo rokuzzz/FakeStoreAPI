@@ -2,12 +2,12 @@ import { Request, Response } from "express"
 import jwt from 'jsonwebtoken'
 import { v4 as uuidv4, v4 } from 'uuid';
 
-import { User } from '../types/UserType';
 import { CustomError } from '../models/CustomError';
+import User, { UserRole } from "../models/Users";
 
 
 const getAllUsers = ( req: Request, res: Response) => {
-  return res.send('GET response from /users endpoint')
+  return User.find()
 }
 
 const getSingleUser =  (req: Request, res: Response) => {
@@ -25,7 +25,8 @@ const successLogin = (req: Request, res: Response) => {
   // return res.send(`login as ${req.body.username}`)
 }
 
-const createUser = (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response) => {
+  const role: UserRole = 'guest'
   const {
     firstName,
     lastName,
@@ -34,18 +35,17 @@ const createUser = (req: Request, res: Response) => {
     avatar
   } = req.body
 
-  const user: User = {
-    id: v4(),
+  const user = new User({
     firstName,
     lastName,
     email,
     password,
-    avatar
-  }
+    avatar,
+    role
+  })
 
-  //save this user into db
-  
-  return res.status(201).json(user)
+  const newUser = await user.save()
+  return res.status(201).json(newUser)
 }
 
 export default {
