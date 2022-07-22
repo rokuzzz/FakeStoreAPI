@@ -1,6 +1,4 @@
-import logger from "jet-logger";
 import server from "./server";
-import mongodb from "mongodb";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
