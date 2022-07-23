@@ -10,6 +10,7 @@ import path from "path";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import users from './routes/users'
+import images from './routes/images';
 
 dotenv.config();
 const port: string = process.env.PORT as string;
@@ -49,6 +50,7 @@ if (process.env.NODE_ENV === "production") {
 
 // Add routes
 app.use('/users', users)
+app.use('/images', images)
 
 // Error middleware
 app.use(handleError)

@@ -26,13 +26,14 @@ const successLogin = (req: Request, res: Response) => {
 }
 
 const createUser = async (req: Request, res: Response) => {
+  const name = req.file?.filename
+  const avatar = `http://localhost:5000/images/${name}`
   const role: UserRole = 'guest'
   const {
     firstName,
     lastName,
     email,
     password,
-    avatar
   } = req.body
 
   const user = new User({
