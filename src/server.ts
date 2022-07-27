@@ -1,3 +1,4 @@
+import { handleError } from './middlewares/handleError';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -7,10 +8,10 @@ import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import products from "./routes/products";
 import categories from "./routes/categories";
-import { errorHandler } from "./errorHandler/error";
+import users from './routes/users';
+import images from './routes/images';
 
 dotenv.config();
 const port: string = process.env.PORT as string;
@@ -26,6 +27,7 @@ app.set("port", port);
 // Common middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
 app.use(cookieParser());
 
 // Show routes called in console during development
@@ -50,10 +52,11 @@ app.use(
 // Add routes
 app.use("/products", products);
 app.use("/categories", categories);
+app.use('/users', users)
+app.use('/images', images)
 
-// Add error handler
-
-app.use(errorHandler)
+// Error middleware
+app.use(handleError)
 
 // Export here and start in a diff file (for testing).
 export default app;

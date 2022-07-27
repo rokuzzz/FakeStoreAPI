@@ -1,4 +1,4 @@
-import { CustomError } from "errorType";
+import { CustomError } from "../models/CustomError";
 import Category, { CategoryDocument } from "../models/Categories";
 import Product, { ProductDocument } from "../models/Products";
 

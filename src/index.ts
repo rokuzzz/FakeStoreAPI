@@ -2,7 +2,6 @@ import server from "./server";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-
 dotenv.config();
 const URI: string = process.env.SHOP_DB_URI as string;
 

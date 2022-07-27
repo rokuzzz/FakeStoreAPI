@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
+import { CustomError } from "../models/CustomError";
 
-import { CustomError } from "../types/errorType";
-
-export const errorHandler = (
+export const handleError = (
   err: Error | CustomError,
   req: Request,
   res: Response,
@@ -15,4 +14,4 @@ export const errorHandler = (
   } else {
     return res.status(500).send(err.message);
   }
-};
+  }
