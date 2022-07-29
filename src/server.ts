@@ -2,14 +2,15 @@ import { handleError } from './middlewares/handleError';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
-import users from './routes/users'
+import products from "./routes/products";
+import categories from "./routes/categories";
+import users from './routes/users';
 import images from './routes/images';
 
 dotenv.config();
@@ -40,24 +41,22 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Add swagger router
-// app.use(
-//   "/",
-//   swaggerUi.serve,
-//   swaggerUi.setup(swaggerDocument, {
-//     explorer: true,
-//   })
-// );
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, {
+    explorer: true,
+  })
+);
 
 // Add routes
+app.use("/products", products);
+app.use("/categories", categories);
 app.use('/users', users)
 app.use('/images', images)
 
 // Error middleware
 app.use(handleError)
-
-// Set dynamic view from views dir
-const viewsDir = path.join(__dirname, "views");
-app.set("views", viewsDir);
 
 // Export here and start in a diff file (for testing).
 export default app;

@@ -3,7 +3,7 @@ export class CustomError extends Error {
   public readonly message: string;
 
   constructor(status: number, message: string) {
-    super(message)
+    super();
     this.status = status
     this.message = message
   }

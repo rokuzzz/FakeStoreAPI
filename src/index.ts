@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 
 dotenv.config();
 const URI: string = process.env.SHOP_DB_URI as string;
-const port: string = process.env.PORT as string;
 
 mongoose
   .connect(`${URI}`)
