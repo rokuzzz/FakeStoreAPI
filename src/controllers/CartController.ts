@@ -1,93 +1,86 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Product from "../models/Products";
-import CartItem from "../models/CartItem";
-import cartItemService from "../services/cartService";
 import { CustomError } from "../models/CustomError";
+import cartService from "../services/cartService";
+import { CartItem } from "../models/CartItem";
+import Users from "../models/Users";
 
-const getCartItems = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const cartItems = await cartItemService.getCartItems();
-    return res.json(cartItems);
+    const cart = await cartService.getCart();
+    return res.json(cart);
   } catch (err) {
     next(err);
   }
 };
 
-const getCartItemById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getCartById = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const foundItem = await cartItemService.getCartItemById(req.params.id);
-    res.json(foundItem);
+    const foundCart = await cartService.getCartById(req.params.id);
+    res.json(foundCart);
   } catch (err) {
     next(err);
   }
 };
 
-const updateCartItem = async (
+const updateProductInCart = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { quantity } = req.body;
-    const updatedItem = await cartItemService.updateCartItem(
+    // Req.body has to contain productId, userId and quantity
+    // Red.params need to contain the cartId
+    const { quantity, productId } = req.body;
+    const cartItem = { quantity, productId };
+    const updatedCart = await cartService.updateProductInCart(
       req.params.id,
-      quantity
+      cartItem
     );
-    return res.json(updatedItem);
+    return res.json(updatedCart);
   } catch (err) {
     next(err);
   }
 };
 
-const createCartItem = async (
+const addNewProductToCart = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { name, quantity } = req.body;
-    const productId = await Product.findOne({ name: name });
-    if (productId) {
-      const cartItem = new CartItem({
-        productId: productId,
-        quantity: quantity,
-      });
-      const item = await cartItemService.createCartItem(cartItem);
+    const { name, quantity, userId } = req.body;
+    // check if the user exists in the DB
+    const existedUser = await Users.findById(userId);
+    // check if product exists in DB
+    const product = await Product.findOne({ name: name });
+    if (product && existedUser) {
+      const productId = product._id; 
+      const cartItem = { productId, quantity };
+      const item = await cartService.addNewProductToCart(cartItem, userId);
       return res.status(201).json(item);
     } else {
-      throw new CustomError(404, "Product does not exist");
+      throw new CustomError(404, "Product or User does not exist");
     }
   } catch (err) {
     next(err);
   }
 };
 
-const deleteCartItem = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const deleteCart = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const deletedItem = await cartItemService.deleteCartItem(req.params.id);
-    return res.status(204).send("Item deleted from cart!");
+    const deletedItem = await cartService.deleteCart(req.params.id);
+    return res.status(204).send("Cart deleted!");
   } catch (err) {
     next(err);
   }
 };
 
 export default {
-  getCartItems,
-  getCartItemById,
-  createCartItem,
-  updateCartItem,
-  deleteCartItem
+  getCart,
+  getCartById,
+  addNewProductToCart,
+  updateProductInCart,
+  deleteCart,
 };

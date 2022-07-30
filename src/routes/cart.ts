@@ -2,10 +2,10 @@ import { Router, Request, Response } from "express";
 import CartController from "../controllers/CartController";
 
 const cart = Router();
-cart.get("", CartController.getCartItems);
-cart.get("/:id", CartController.getCartItemById);
-cart.put("/:id", CartController.updateCartItem);
-cart.post("", CartController.createCartItem);
-cart.delete("/:id", CartController.deleteCartItem);
+cart.get("", CartController.getCart);
+cart.get("/:id", CartController.getCartById);
+cart.put("/:id", CartController.updateProductInCart);
+cart.post("", CartController.addNewProductToCart);
+cart.delete("/:id", CartController.deleteCart);
 
 export default cart;

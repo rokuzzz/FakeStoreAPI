@@ -1,71 +1,62 @@
 import { CustomError } from "../models/CustomError";
-import CartItem, { CartItemDocument } from "../models/CartItem";
-import { nextTick } from "process";
+import Cart from "../models/Cart";
+import { CartItem } from "../models/CartItem";
 
-const getCartItems = async () => {
-  return await CartItem.find().populate("productId");
+const getCart = async () => {
+  return await Cart.find();
 };
 
-const getCartItemById = async (cartItemId: string) => {
-  const foundItem = await CartItem.findById(cartItemId).populate("productId");
+const getCartById = async (cartItemId: string) => {
+  const foundItem = await Cart.findById(cartItemId).populate("productId");
   if (!foundItem) {
     throw new CustomError(404, "Item does not exist in cart");
   }
   return foundItem;
 };
 
-const updateCartItem = async (cartItemId: string, quantity: string) => {
-  const updatedQuantity = Number(quantity);
-  const existedItem = await CartItem.findById(cartItemId);
-  if (existedItem) {
-    return await CartItem.findByIdAndUpdate(
-      existedItem._id,
-      {
-        quantity: updatedQuantity,
-      },
-      {
-        new: true,
-      }
-    ).populate("productId");
+const updateProductInCart = async (cartId: string, cartItem: any) => {
+  const { quantity, productId } = cartItem;
+};
+
+const deleteCart = async (cartId: string) => {
+  const existedCart = await Cart.findById(cartId);
+  if (existedCart) {
+    return await Cart.findByIdAndDelete(existedCart._id);
   } else {
-    throw new CustomError(404, "Item does not exist in cart");
+    throw new CustomError(404, "Cart does not exist");
   }
 };
 
-const deleteCartItem = async (cartItemId: string) => {
-  const existedItem = await CartItem.findById(cartItemId);
-  if (existedItem) {
-    return await CartItem.findByIdAndDelete(existedItem._id);
-  } else {
-    throw new CustomError(404, "Item does not exist in cart");
-  }
-};
-
-const createCartItem = async (cartItem: CartItemDocument) => {
+const addNewProductToCart = async (cartItem: CartItem, userId: string) => {
   const { productId, quantity } = cartItem;
-  // Check if product has already existed
-  const existedItem = await CartItem.findOne({ productId: productId });
-  if (existedItem) {
-    // if item has already existed, update item's quantity
-    const updatedQuantity = existedItem.quantity + quantity;
-    // then update quantity field of the cart item
-    return await CartItem.findByIdAndUpdate(
-      existedItem._id,
+  //Check if cart matches any cart in the DB
+  const existedCart = await Cart.findOne({ userId: userId });
+  if (existedCart) {
+    //Check if product has already existed in cart
+    const existedProduct = await Cart.findOne({ products: productId });
+    console.log(existedProduct);
+    if (existedProduct) {
+    }
+    return await Cart.findByIdAndUpdate(
+      existedCart._id,
       {
-        quantity: updatedQuantity,
+        $push: { products: { productId, quantity } },
+        userId: userId,
       },
-      {
-        new: true,
-      }
-    ).populate("productId");
+      { new: true }
+    );
   }
-  return await cartItem.save();
+  const newCart = new Cart({
+    userId: userId,
+    products: cartItem,
+  });
+  return newCart.save();
 };
 
 export default {
-  getCartItems,
-  getCartItemById,
-  createCartItem,
-  updateCartItem,
-  deleteCartItem
+  getCart,
+  getCartById,
+  addNewProductToCart,
+  updateProductInCart,
+  deleteCart,
 };
