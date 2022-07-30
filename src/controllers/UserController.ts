@@ -40,6 +40,7 @@ const createUser = async (req: Request, res: Response) => {
     const {
       firstName,
       lastName,
+      phone,
       email,
       password,
     } = req.body
@@ -47,6 +48,7 @@ const createUser = async (req: Request, res: Response) => {
     const user = new User({
       firstName,
       lastName,
+      phone,
       email,
       password,
       avatar,

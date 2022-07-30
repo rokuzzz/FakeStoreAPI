@@ -4,8 +4,8 @@ import bcrypt from 'bcrypt';
 export type UserRole = "guest" | "admin";
 
 export interface UserDocument extends Document {
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   phone: string;
   email: string;
   password: string;
@@ -20,6 +20,10 @@ const userSchema = new Schema({
     required: true,
   },
   lastName: {
+    type: String,
+    required: true,
+  },
+  phone: {
     type: String,
     required: true,
   },
