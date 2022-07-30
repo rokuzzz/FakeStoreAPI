@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import path from 'path'
+import Image from '../models/Images'
 
 const images = Router()
 images.get('/:imageName', (req, res) => {

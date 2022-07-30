@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from "express";
+import jwt from 'jsonwebtoken'
+import fs from 'fs'
+
+import { CustomError } from '../models/CustomError';
 import userService from "../services/userService";
-import { CustomError } from "../models/CustomError";
 import User, { UserRole } from "../models/Users";
+import Image from '../models/Images'
 
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -25,23 +29,39 @@ const getSingleUser = (req: Request, res: Response) => {
 // Delete 
 
 const createUser = async (req: Request, res: Response) => {
-  const name = req.file?.filename;
-  const avatar = `http://localhost:5000/images/${name}`;
-  const role: UserRole = 'guest';
-  const { firstName, lastName, email, password } = req.body;
-
-  const user = new User({
-    firstName,
-    lastName,
-    email,
-    password,
-    avatar,
-    role,
-  });
-
-  const newUser = await user.save();
-  return res.status(201).json(newUser);
-};
+  if (req.file?.path) {
+    const data = fs.readFileSync(req.file?.path)
+    const newImage = new Image({
+      data
+    })
+    const savedImage = await newImage.save()
+    const avatar = `http://localhost:5000/images/${savedImage._id}`
+    const role: UserRole = 'guest'
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+    } = req.body
+  
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      password,
+      avatar,
+      role
+    })
+  
+    const newUser = await user.save()
+    savedImage.userId = newUser._id
+    savedImage.save()
+    return res.status(201).json(newUser)
+  } 
+  else {
+    throw new CustomError(404, 'File cannot be empty')
+  }
+}
 
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
