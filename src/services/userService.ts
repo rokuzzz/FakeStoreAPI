@@ -1,11 +1,27 @@
-import User from "../models/Users";
+import User, { UserDocument } from "../models/Users";
 import jwt from "jsonwebtoken";
 import { CustomError } from "../models/CustomError";
 
-
 const getUsers = async () => {
-    return await User.find();
+  return await User.find();
+};
+
+const getSingleUser = async (userId: string) => {
+  try {
+    const foundUser = await User.findById(userId)
+    if (!foundUser) {
+        throw new CustomError(404, 'User with the provided id is not found')
+    }
+    return foundUser
+} catch (e) {
+    console.log(e)
+    return
 }
+}
+
+const createUser = async (user: UserDocument) => {
+  return await user.save();
+};
 
 const authenticateUser = async (user: any) => {
   const { email, password } = user;
@@ -15,7 +31,7 @@ const authenticateUser = async (user: any) => {
     if (validPassword) {
       const token = jwt.sign(
         { sub: foundUser._id, user: foundUser.email, role: foundUser.role },
-        "mysecretkey" // this should be stored into .env as MYSECRETKEY 
+        "mysecretkey" // this should be stored into .env as MYSECRETKEY
       );
       return token;
     } else {
@@ -26,4 +42,4 @@ const authenticateUser = async (user: any) => {
   }
 };
 
-export default { getUsers, authenticateUser };
+export default { getUsers, getSingleUser, authenticateUser, createUser };

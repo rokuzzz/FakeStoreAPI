@@ -30,7 +30,10 @@ const createProduct = async (product: ProductDocument) => {
   }
 };
 
-const updateProduct = async (productId: string, updateProduct: any) => {
+const updateProduct = async (
+  productId: string,
+  updateProduct: Partial<ProductDocument>
+) => {
   const { name, description, variant, size, image } = updateProduct;
   const foundProduct = await Product.findById(productId);
   if (foundProduct) {

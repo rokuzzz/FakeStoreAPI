@@ -1,11 +1,7 @@
-import { Router } from 'express'
-import path from 'path'
-import Image from '../models/Images'
+import { Router } from "express";
+import ImageController from "../controllers/ImageController";
 
-const images = Router()
-images.get('/:imageId', async (req, res) => {
-  const {imageId} = req.params
-  res.sendFile(path.join(__dirname, `../../public/images/${imageId}`))
-})
+const images = Router();
+images.get("/:imageId", ImageController.getSingleImage);
 
-export default images
+export default images;

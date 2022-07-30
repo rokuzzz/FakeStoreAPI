@@ -12,6 +12,7 @@ import products from "./routes/products";
 import categories from "./routes/categories";
 import users from './routes/users';
 import images from './routes/images';
+import cart from './routes/cart';
 
 dotenv.config();
 const port: string = process.env.PORT as string;
@@ -54,6 +55,7 @@ app.use("/products", products);
 app.use("/categories", categories);
 app.use('/users', users)
 app.use('/images', images)
+app.use('/cart', cart)
 
 // Error middleware
 app.use(handleError)

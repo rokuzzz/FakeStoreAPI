@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from 'jsonwebtoken'
-import fs from 'fs'
-
-import { CustomError } from '../models/CustomError';
+import fs from "fs";
+import { CustomError } from "../models/CustomError";
 import userService from "../services/userService";
 import User, { UserRole } from "../models/Users";
-import Image from '../models/Images'
-
+import imageService from "../services/imageService";
+import sharp from "sharp";
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getUsers();
@@ -16,54 +14,45 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getSingleUser = (req: Request, res: Response) => {
+const getSingleUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
-  if (userId !== "3") {
-    throw new CustomError(401, "not allowed to get this user");
-  }
-  return res.send(`GET response form /users/${userId} endpoint`);
-};
+  const foundUser = await userService.getSingleUser(userId)
 
-// Update 
-
-// Delete 
-
-const createUser = async (req: Request, res: Response) => {
-  if (req.file?.path) {
-    const data = fs.readFileSync(req.file?.path)
-    const newImage = new Image({
-      data
-    })
-    const savedImage = await newImage.save()
-    const avatar = `http://localhost:5000/images/${savedImage._id}`
-    const role: UserRole = 'guest'
-    const {
-      firstName,
-      lastName,
-      phone,
-      email,
-      password,
-    } = req.body
-  
-    const user = new User({
-      firstName,
-      lastName,
-      phone,
-      email,
-      password,
-      avatar,
-      role
-    })
-  
-    const newUser = await user.save()
-    savedImage.userId = newUser._id
-    savedImage.save()
-    return res.status(201).json(newUser)
-  } 
-  else {
-    throw new CustomError(404, 'File cannot be empty')
-  }
+  return res.status(200).json(foundUser)
 }
+
+// Update
+
+// Delete
+
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    console.log(req.file?.path);
+    if (req.file?.path) {
+      const dataBuffer = fs.readFileSync(req.file?.path);
+      const data = await sharp(dataBuffer).resize(200, 200).toBuffer();
+      const savedImage = await imageService.createImage(data);
+      const avatar = `http://localhost:5000/images/${savedImage._id}`;
+      const role: UserRole = "guest";
+      let { firstName, lastName, email, phone, password } = req.body;
+      const user = new User({
+        firstName,
+        lastName,
+        email,
+        phone,
+        password,
+        avatar,
+        role,
+      });
+      const newUser = await userService.createUser(user);
+      return res.status(201).json(newUser);
+    } else {
+      throw new CustomError(404, "File cannot be empty");
+    }
+  } catch (e) {
+    return next(e);
+  }
+};
 
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
