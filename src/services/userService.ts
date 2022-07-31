@@ -23,6 +23,15 @@ const createUser = async (user: UserDocument) => {
   return await user.save();
 };
 
+const deleteUser = async (userId: string) => {
+  const foundUser = await User.findById(userId)
+  if (foundUser) {
+    return await User.findByIdAndDelete(userId)
+  } else {
+    throw new CustomError(404, 'user not found')
+  }
+}
+
 const authenticateUser = async (user: any) => {
   const { email, password } = user;
   const foundUser = await User.findOne({ email: email });
@@ -42,4 +51,4 @@ const authenticateUser = async (user: any) => {
   }
 };
 
-export default { getUsers, getSingleUser, authenticateUser, createUser };
+export default { getUsers, getSingleUser, authenticateUser, createUser, deleteUser };

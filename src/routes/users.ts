@@ -4,9 +4,10 @@ import userController from "../controllers/userController";
 import multerService from "../middlewares/multerService";
 
 const users = Router();
+users.get("", verifyAdmin, userController.getAllUsers); // For authorized users only
 users.get("/:userId", userController.getSingleUser);
 users.post("", multerService, userController.createUser);
-users.get("", verifyAdmin, userController.getAllUsers); // For authorized users only
+users.delete('/:userId', userController.deleteUser)
 users.post("/verify", userController.verifyUser);
 
 

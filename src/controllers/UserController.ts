@@ -5,6 +5,7 @@ import userService from "../services/userService";
 import User, { UserRole } from "../models/Users";
 import imageService from "../services/imageService";
 import sharp from "sharp";
+
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getUsers();
@@ -54,6 +55,20 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {userId} = req.params
+    await userService.deleteUser(userId)
+    return res.status(204).send('user get deleted')
+  } catch (e) {
+    if (e instanceof CustomError) {
+      return next(e)
+    } else {
+      console.log(e)
+    }
+  }
+}
+
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
   const user = { email, password };
@@ -69,5 +84,6 @@ export default {
   getAllUsers,
   getSingleUser,
   createUser,
+  deleteUser,
   verifyUser,
 };
