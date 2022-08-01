@@ -1,5 +1,5 @@
-import { Router, Request, Response, NextFunction } from "express";
-import CategoryController from "../controllers/CategoryController";
+import { Router } from "express";
+import CategoryController from "../controllers/categoryController";
 
 const categories = Router();
 categories.get("", CategoryController.getCategories);
