@@ -9,7 +9,7 @@ export const verifyAdmin = (
 ) => {
   const token = req.header("jwt_token");
   if (!token) {
-    throw new CustomError(403, "Authorization denied!");
+    throw new CustomError(403, "Access denied. Only admin can access this route");
   }
   try {
     const decoded: any = jwt.verify(token, "mysecretkey");
