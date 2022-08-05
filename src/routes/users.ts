@@ -8,6 +8,7 @@ users.get("", verifyAdmin, userController.getAllUsers); // For authorized users 
 users.get("/:userId", userController.getSingleUser);
 users.post("", multerService, userController.createUser);
 users.delete('/:userId', userController.deleteUser)
+users.put('/:userId', multerService, userController.updateUser)
 users.post("/verify", userController.verifyUser);
 
 

@@ -40,7 +40,7 @@ const addNewProductToCart = async (cartItem: CartItem, userId: string) => {
     return await Cart.findByIdAndUpdate(
       existedCart._id,
       {
-        //$push: { products: { productId, quantity } },
+        // $push: { products: { productId, quantity } },
         userId: userId,
       },
       { new: true }

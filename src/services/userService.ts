@@ -32,6 +32,13 @@ const deleteUser = async (userId: string) => {
   }
 }
 
+// const updateUser = async (userId: string) => {
+//   const foundUser = await User.findById(userId)
+//   if (foundUser) {
+//     return await User.findByIdAndUpdate(userId)
+//   }
+// }
+
 const authenticateUser = async (user: any) => {
   const { email, password } = user;
   const foundUser = await User.findOne({ email: email });

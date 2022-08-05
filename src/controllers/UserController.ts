@@ -22,10 +22,6 @@ const getSingleUser = async (req: Request, res: Response) => {
   return res.status(200).json(foundUser)
 }
 
-// Update
-
-// Delete
-
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req.file?.path);
@@ -69,6 +65,36 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const {userId} = req.params
+    const foundUser = await User.findById(userId)
+    if (foundUser) {
+      if (req.file?.path) {
+        const dataBuffer = fs.readFileSync(req.file?.path);
+        const data = await sharp(dataBuffer).resize(200, 200).toBuffer();
+        const savedImage = await imageService.createImage(data);
+        const avatar = `http://localhost:5000/images/${savedImage._id}`;
+
+        let { firstName, lastName, email, phone, password } = req.body;
+        
+        await User.findByIdAndUpdate(userId, {firstName, lastName, email, phone, password, avatar}, {
+          new: true
+        })
+        
+        const updatedUser = await userService.getSingleUser(userId)
+        return res.status(200).json(updatedUser)
+      } else {
+        throw new CustomError(404, "File cannot be empty");
+      } 
+    } else {
+      throw new CustomError(404, 'user not found')
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
   const user = { email, password };
@@ -85,5 +111,6 @@ export default {
   getSingleUser,
   createUser,
   deleteUser,
+  updateUser,
   verifyUser,
 };
