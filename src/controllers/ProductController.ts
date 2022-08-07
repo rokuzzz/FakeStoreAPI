@@ -1,7 +1,8 @@
 import productService from "../services/productService";
 import { NextFunction, Request, Response } from "express";
-import Product, { ProductDocument } from "../models/Products";
-
+import Product from "../models/Products";
+import Category from "../models/Categories";
+import { CustomError } from "../models/CustomError";
 
 // Product controller
 const getProducts = async (req: Request, res: Response, next: NextFunction) => {
@@ -34,16 +35,21 @@ const createProduct = async (
 ) => {
   try {
     let { name, description, category, variant, size, image } = req.body;
-    const newProduct = new Product({
-      name,
-      description,
-      category,
-      variant,
-      size,
-      image,
-    });
-    const product = await productService.createProduct(newProduct);
-    return res.status(201).json(product);
+    const categoryId = await Category.findOne({ name: category });
+    if (categoryId) {
+      const newProduct = new Product({
+        name,
+        description,
+        categoryId,
+        variant,
+        size,
+        image,
+      });
+      const product = await productService.createProduct(newProduct);
+      return res.status(201).json(product);
+    } else {
+      throw new CustomError(404, "Category does not exist")
+    }
   } catch (e) {
     next(e);
   }

@@ -30,15 +30,19 @@ const updateProductInCart = async (
   next: NextFunction
 ) => {
   try {
-    // Req.body has to contain productId, userId and quantity
-    // Red.params need to contain the cartId
-    const { quantity, productId } = req.body;
-    const cartItem = { quantity, productId };
-    const updatedCart = await cartService.updateProductInCart(
-      req.params.id,
-      cartItem
-    );
-    return res.json(updatedCart);
+    const { name, quantity, userId } = req.body;
+    // check if the user exists in the DB
+    const existedUser = await Users.findById(userId);
+    // check if product exists in DB
+    const product = await Product.findOne({ name: name });
+    if (product && existedUser) {
+      const productId = product._id;
+      const cartItem = { productId, quantity };
+      const item = await cartService.updateProductInCart(cartItem, userId);
+      return res.status(201).json(item);
+    } else {
+      throw new CustomError(404, "Product or User does not exist");
+    }
   } catch (err) {
     next(err);
   }
@@ -56,7 +60,7 @@ const addNewProductToCart = async (
     // check if product exists in DB
     const product = await Product.findOne({ name: name });
     if (product && existedUser) {
-      const productId = product._id; 
+      const productId = product._id;
       const cartItem = { productId, quantity };
       const item = await cartService.addNewProductToCart(cartItem, userId);
       return res.status(201).json(item);

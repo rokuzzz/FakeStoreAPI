@@ -15,19 +15,8 @@ const getProductById = async (productId: string) => {
 };
 
 const createProduct = async (product: ProductDocument) => {
-  const categoryId = await Category.findOne({ name: product.category });
-  if (categoryId) {
-    await product.save();
-    return await Product.findByIdAndUpdate(
-      product._id,
-      {
-        categoryId: categoryId,
-      },
-      { new: true }
-    );
-  } else {
-    throw new CustomError(404, "Category does not exist");
-  }
+  await product.save();
+  return await Product.findById(product._id).populate('categoryId');
 };
 
 const updateProduct = async (
