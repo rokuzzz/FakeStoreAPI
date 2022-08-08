@@ -44,4 +44,20 @@ describe('test user controller', () => {
         .attach('avatar', 'src/test/fixtures/avatar.jpg')
     expect(response.status).toBe(201)
   })
+  test('delete user', async () => {
+    const userId = new mongoose.Types.ObjectId().toString()
+    const newUser = new User({
+      _id: userId,
+      firstName: "Roman",
+      lastName: "New",
+      email: "new.roman@test-mail.com",
+      password: "testing",
+      avatar: "https://picsum.photos/200/300",
+      role: "guest"
+    });
+    await newUser.save();
+
+    const response = await request(app).delete(`/users/${userId}`)
+    expect(response.status).toBe(204)
+  })
 })
