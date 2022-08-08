@@ -1,6 +1,6 @@
+import { CartItem } from './../models/CartItem';
 import { CustomError } from "../models/CustomError";
 import Cart from "../models/Cart";
-import { CartItem } from "../models/CartItem";
 
 const getCart = async () => {
   return await Cart.find();

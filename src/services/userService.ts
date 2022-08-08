@@ -15,8 +15,7 @@ const getSingleUser = async (userId: string) => {
     return foundUser
 } catch (e) {
     console.log(e)
-    return
-}
+  }
 }
 
 const createUser = async (user: UserDocument) => {
