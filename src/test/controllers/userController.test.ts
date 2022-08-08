@@ -17,6 +17,14 @@ afterEach(async () => {
 });
 
 describe('test user controller', () => {
+  test('test route /users with token of normal user', async () => {
+    const response = await request(app).get('/users')
+    .set(
+      "jwt_token",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MmUwNDJhZTE2ZTFjZDY2MWZkYTgyYTgiLCJ1c2VyIjoiaG9hbi5ob0BtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY1OTM3Njg2Mn0.TfowqKID48tOxcC5pwjg1QEyoseFRp7lTeIImyLOGoE"
+    )
+    expect(response.status).toBe(200);
+})
   test('get single user', async () => {
     const userId = new mongoose.Types.ObjectId().toString()
     const newUser = new User({

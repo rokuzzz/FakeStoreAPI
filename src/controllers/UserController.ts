@@ -9,7 +9,7 @@ import sharp from "sharp";
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.getUsers();
-    return res.json(users);
+    return res.status(200).json(users);
   } catch (e) {
     next(e);
   }
