@@ -22,10 +22,6 @@ const getSingleUser = (req: Request, res: Response) => {
   return res.send(`GET response form /users/${userId} endpoint`);
 };
 
-// Update
-
-// Delete
-
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req.file?.path);
