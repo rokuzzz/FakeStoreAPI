@@ -24,7 +24,7 @@ const swaggerDocument = YAML.load(
 
 //initialize the express server
 const app = express();
-app.set("port", port);
+app.set("port", port || 5000);
 
 // Common middlewares
 app.use(express.json());
