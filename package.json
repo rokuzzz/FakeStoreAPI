@@ -5,7 +5,7 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "start": "node dist/server.js",
-    "start:prod": "node dist/server.js", 
+    "start:prod": "node dist/server.js",
     "start:dev": "nodemon",
     "test": "jest --watch",
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec"
@@ -63,11 +63,13 @@
     "build.ts"
   ],
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/mongoose": "^5.11.97",
     "@types/yamljs": "^0.2.31",
     "bcrypt": "^5.0.1",
     "command-line-args": "^5.2.1",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
     "helmet": "^5.1.0",
@@ -76,7 +78,7 @@
     "jsonfile": "^6.1.0",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
-    "mongoose": "^6.4.4",
+    "mongoose": "^6.6.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "sharp": "^0.30.7",
