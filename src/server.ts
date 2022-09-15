@@ -1,8 +1,8 @@
+import express from "express";
 import { handleError } from './middlewares/handleError';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-import express from "express";
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";

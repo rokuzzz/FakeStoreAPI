@@ -1,11 +1,14 @@
 {
   "name": "restapi-swagger",
   "version": "0.0.0",
+  "engines": {
+    "node": "16.15.0"
+  },
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
-    "start": "node dist/server.js",
-    "start:prod": "node dist/server.js",
+    "start": "node dist/index.js",
+    "start:prod": "node dist/index.js",
     "start:dev": "nodemon",
     "test": "jest --watch",
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec"
