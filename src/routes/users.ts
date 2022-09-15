@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { verifyAdmin } from "../middlewares/userMiddleware";
-import userController from "../controllers/userController";
+import userController from "../controllers/UserController";
 import multerService from "../middlewares/multerService";
 
 const users = Router();

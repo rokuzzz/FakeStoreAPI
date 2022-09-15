@@ -1,5 +1,5 @@
 import { Router } from "express";
-import CategoryController from "../controllers/categoryController";
+import CategoryController from "../controllers/CategoryController";
 import { verifyAdmin } from "../middlewares/userMiddleware";
 
 const categories = Router();
