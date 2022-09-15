@@ -4,7 +4,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
-    "start": "node -r module-alias/register ./dist --env=production",
+    "start": "node dist/server.js",
+    "start:prod": "node dist/server.js", 
     "start:dev": "nodemon",
     "test": "jest --watch",
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec"
