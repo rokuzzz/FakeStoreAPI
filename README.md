@@ -20,7 +20,7 @@ Project was developed by Roman Kuzero and Hoan Ho.
 - Jest
 
 ## Getting started
-### Installation
+
 1. Clone the repo
 ```
 git clone https://github.com/alexh0810/fs11-backend.git
@@ -29,14 +29,15 @@ git clone https://github.com/alexh0810/fs11-backend.git
 ```
 npm install
 ```
-### Set .env
-1. Get this from mongodb atlas after you've logged in and created a database
+3. Create an .env in the root folder as instructed in .env.example.
+
+4. Run the application
 ```
-SHOP_DB_URI="mongodb+srv://<username>:<password>@cluster0.juxbs.mongodb.net/<databaseName>?retryWrites=true&w=majority"
+npm run start
 ```
-2. Set the port
+or 
 ```
-PORT="5000"
+npm run start:dev
 ```
 
 ## Usage
