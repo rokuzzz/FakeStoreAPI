@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import Product from "../models/Products";
 import { CustomError } from "../models/CustomError";
 import cartService from "../services/cartService";
-import { CartItem } from "../models/CartItem";
 import Users from "../models/Users";
 
 const getCart = async (req: Request, res: Response, next: NextFunction) => {

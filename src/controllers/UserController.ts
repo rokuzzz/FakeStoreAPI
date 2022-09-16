@@ -19,9 +19,12 @@ const getSingleUser = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const foundUser = await userService.getSingleUser(userId)
 
+<<<<<<< HEAD
   return res.status(200).json(foundUser)
 }
 
+=======
+>>>>>>> 7608a7a287b6f244ec83460543a59f7f4b1ba045
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(req.file?.path);

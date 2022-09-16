@@ -1,8 +1,8 @@
+import express from "express";
 import { handleError } from './middlewares/handleError';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import helmet from "helmet";
-import express from "express";
 import "express-async-errors";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
@@ -14,6 +14,7 @@ import users from './routes/users';
 import images from './routes/images';
 import cart from './routes/cart';
 
+
 dotenv.config();
 const port: string = process.env.PORT as string;
 //import swaggerDocument from './swagger/swagger.json'
@@ -23,7 +24,7 @@ const swaggerDocument = YAML.load(
 
 //initialize the express server
 const app = express();
-app.set("port", port);
+app.set("port", port || 5000);
 
 // Common middlewares
 app.use(express.json());

@@ -1,32 +1,60 @@
-### Backend project
-This assigment requires teamwork. Your team has been assigned one of two topics: 
-1. Library management system
-Main path:
+# FakeStoreAPI by Roman and Hoan
+## About
+The [FakeStoreAPI](https://funshopping-api.herokuapp.com/api-docs/) provides free online e-commerce REST API. Can be used to develop front-end projects when placeholder data is needed without running any server-side code. 
+
+Main paths are: 
 - Users
-- Admin (or Admins if you decide to have multiple site admins)
-- Books
-- Authors
-- Carts
-- Optional paths: Reviews
-2. Ecommerce Website
-Main paths:
-- Users
-- Admin (or Admins if you decide to have multiple site admins)
+- Admin
 - Products
 - Categories
 - Carts
-- Optional paths: Reviews
----
-## Requirements
-*For team assignment, only 1 member in the team should fork the repo. Then, admin can invite other members to contribute in the same repo. Remember to have develop branch before merging to main. And each feature/schema/bug/issue should have it's own branch, and taken by only 1 member. Before making any new branch, make sure you run `git pull` to avoid the conflicts with the remote repo. If neccessary, check the Git lecture again.*
-1. Design the API endpoints, following REST API architecture (if you team has done this part in the rest-api assignment, you can copy the swagger folder here, as well as the codes). Change the  api document path to '/', so it will be the first page when users visit.
-2. Set up exress server and create CRUD endpoints for all the schema:
-- Create routers for the main paths, and use the router in the app.
-- Add error handler middlewares (authentication middlewares can be delayed till we reach that lecture).
-3. Create controller folder and the controller file for each route. Add request handlers of each route to it's controller file.
-4. Create ERD diagram
-5. Set up Mongo DB in your project and create all the mongoose schema according to your ERD diagram. You can use local mongodb for development, but in production, switch to Mongo Atlas
-6. Create a separate services folder and create service file for each schema. The service file will contains expensive functions which interact with MongoDB. Later on in controller, we will import the functions there and use.
-7. Add authentication middleware using passport, google and jwt strategy.
-8. Add tests for your controllers and services. Remember to create the jwt token for your tests, because if your controller is protected, then the test should send the token also.
-9. When your project is about to complete, deploy it to online platform of your choice. Rewrite the README.md file with your own introduction, tech stack, project details, contributors, and link to the online demo.
+
+Project was developed by Roman Kuzero and Hoan Ho.
+
+## Used Technologies
+- TypeScript
+- Node.js
+- Express.js
+- Mongoose
+- Swagger
+- Jest
+
+## Getting started
+
+1. Clone the repo
+```
+git clone https://github.com/alexh0810/fs11-backend.git
+```
+2. Install NPM packages
+```
+npm install
+```
+3. Create an .env in the root folder as instructed in .env.example.
+
+4. Run the application
+```
+npm run start
+```
+or 
+```
+npm run start:dev
+```
+
+## Usage
+you can fetch data with any kind of methods you know (fetch API, Axios, jquery ajax, etc.)
+### Get All Products
+```js
+fetch("https://funshopping-api.herokuapp.com/products")
+  .then((res) => res.json())
+  .then((json) => console.log(json));
+```
+### Get Single Product
+```js
+fetch("https://funshopping-api.herokuapp.com/products/{id}")
+  .then((res) => res.json())
+  .then((json) => console.log(json));
+```
+
+## Deployment link
+
+[Amaizng FakeStoreAPI](https://funshopping-api.herokuapp.com/api-docs/)
