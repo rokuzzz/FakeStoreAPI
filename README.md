@@ -54,3 +54,7 @@ fetch("https://funshopping-api.herokuapp.com/products/{id}")
   .then((res) => res.json())
   .then((json) => console.log(json));
 ```
+
+## Deployment link
+
+[Amaizng FakeStoreAPI](https://funshopping-api.herokuapp.com/api-docs/)
